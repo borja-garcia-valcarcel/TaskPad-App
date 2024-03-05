@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/bottom_task_list"
+        android:title="Task List"
+        android:icon="@drawable/task_list_icon" />
+
+    <item
+        android:id="@+id/bottom_add"
+        android:title="Add new"
+        android:icon="@drawable/add_icon"/>
+
+    <item
+        android:id="@+id/bottom_note_list"
+        android:title="Note List"
+        android:icon="@drawable/note_list_icon"/>
+
+
+
+
+
+
+
+
+</menu>

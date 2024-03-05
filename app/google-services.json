@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619890430461",
+    "project_id": "taskpad-50ceb",
+    "storage_bucket": "taskpad-50ceb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619890430461:android:97b5866695f470c3770994",
+        "android_client_info": {
+          "package_name": "com.example.taskpad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfc0x9RmzHfz973RxvBjgT3sh0ux4CSUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

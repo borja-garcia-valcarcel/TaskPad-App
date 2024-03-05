@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">TaskPad</string>
+    //Login Activity
+    <string name="Not_Registered"><u>Not yet registered? Sign Up here</u></string>
+    <string name="Login"><u>LOGIN</u></string>
+    <string name="LoginEmailHint"><u>Email</u></string>
+    <string name="LoginPasswordHint"><u>Password</u></string>
+
+    //Sign Up Activity
+    <string name="Already_Registered"><u>Already registered? Login here</u></string>
+    <string name="SingupEmailHint"><u>Email</u></string>
+    <string name="SignupPasswordHint"><u>Password</u></string>
+    <string name="Repeat_PasswordHint"><u>Repeat Password</u></string>
+    <string name="SignupBtn"><u>SIGNUP</u></string>
+
+
+    //Recovery Password
+    <string name="Forgot_Password"><u>Forgot Password?</u></string>
+    <string name="Back_To_Login"><u>Back to Login</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    //LogOut
+    <string name="LogOut"><u>LogOut</u></string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

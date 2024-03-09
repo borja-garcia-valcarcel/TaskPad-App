@@ -5,12 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".AddNewFragment">
 
-    <TextView
+    <Button
+        android:id="@+id/createNewTask"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add New List/Note"
-        android:textSize="36sp"
-        android:textColor="@color/blueA200"
-        android:gravity="center"/>
+        android:layout_height="80dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="56dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="Create new Task" />
+
+    <Button
+        android:id="@+id/createNewNote"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="370dp"
+        android:layout_marginEnd="56dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="Create new Note" />
+
 
 </FrameLayout>

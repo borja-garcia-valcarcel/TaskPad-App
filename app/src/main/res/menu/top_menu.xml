@@ -7,7 +7,7 @@
         android:id="@+id/top_navigation"
         android:title="My Account"
         android:textSize="20sp"
-        android:icon="@drawable/account_icon"
+        android:icon="@drawable/profile_icon"
         app:showAsAction="ifRoom"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"/>

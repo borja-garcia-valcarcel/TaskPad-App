@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.taskpad.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.taskpad.LoginActivity"
+        android:label="LoginActivity" />
+    <activity
+        android:id="@+id/signupActivity"
+        android:name="com.example.taskpad.SignupActivity"
+        android:label="activity_signup"
+        tools:layout="@layout/activity_signup" />
+    <activity
+        android:id="@+id/forgotPasswordActivity"
+        android:name="com.example.taskpad.ForgotPasswordActivity"
+        android:label="activity_forgot_password"
+        tools:layout="@layout/activity_forgot_password" />
+    <fragment
+        android:id="@+id/noteListFragment"
+        android:name="com.example.taskpad.fragments.NoteListFragment"
+        android:label="fragment_note_list"
+        tools:layout="@layout/fragment_note_list" />
+    <fragment
+        android:id="@+id/addNewFragment"
+        android:name="com.example.taskpad.fragments.AddNewFragment"
+        android:label="fragment_add_new"
+        tools:layout="@layout/fragment_add_new" />
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.example.taskpad.fragments.TaskListFragment"
+        android:label="fragment_task_list"
+        tools:layout="@layout/fragment_task_list" />
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.taskpad.HomeActivity"
+        android:label="activity_home"
+        tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/signOutFragment"
+        android:name="com.example.taskpad.fragments.SignOutFragment"
+        android:label="SignOutFragment" >
+        <action
+            android:id="@+id/action_signOutFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_signOutFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+</navigation>

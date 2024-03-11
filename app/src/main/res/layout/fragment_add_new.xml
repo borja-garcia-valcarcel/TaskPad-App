@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddNewFragment">
+    tools:context=".fragments.AddNewFragment">
 
     <Button
-        android:id="@+id/createNewTask"
+        android:id="@+id/createNewTaskBtn"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="56dp"
@@ -17,7 +17,7 @@
         android:text="Create new Task" />
 
     <Button
-        android:id="@+id/createNewNote"
+        android:id="@+id/createNewNoteBtn"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="56dp"

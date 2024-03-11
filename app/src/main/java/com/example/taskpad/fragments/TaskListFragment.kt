@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.taskpad.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class TaskListFragment : Fragment() {
@@ -15,6 +16,7 @@ class TaskListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_task_list, container, false)
     }

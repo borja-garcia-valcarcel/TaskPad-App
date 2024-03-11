@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "619890430461",
+    "firebase_url": "https://taskpad-50ceb-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "taskpad-50ceb",
     "storage_bucket": "taskpad-50ceb.appspot.com"
   },

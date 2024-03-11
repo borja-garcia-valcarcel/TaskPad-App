@@ -54,10 +54,12 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.DialogBtnClickListene
     private fun init(view:View) {
         auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
-            .child("Tasks").child(auth.currentUser?.uid.toString())
+            .child("Tasks")
+            .child(auth.currentUser?.uid.toString())
     }
 
     override fun onSaveTask(task: String, newTaskEt: TextInputEditText) {
+
         databaseReference.push().setValue(task).addOnCompleteListener {
             if (it.isSuccessful) {
                 Toast.makeText(context, "Task saved successfully", Toast.LENGTH_SHORT).show()

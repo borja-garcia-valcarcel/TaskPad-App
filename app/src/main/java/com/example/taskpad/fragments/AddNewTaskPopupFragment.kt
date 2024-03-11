@@ -42,7 +42,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         auth = FirebaseAuth.getInstance()
         binding.createTaskBtn.setOnClickListener {
             val task = binding.newTaskEt.text.toString()
-            if (task.isNotEmpty()) {
+            if (task.trim().isNotEmpty()) {
                 listener.onSaveTask(task, binding.newTaskEt)
             }else {
                 Toast.makeText(context, "Please write your task", Toast.LENGTH_SHORT).show()

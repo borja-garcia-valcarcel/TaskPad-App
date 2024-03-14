@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskpad.R
 import com.example.taskpad.databinding.ActivityHomeBinding
 import com.example.taskpad.databinding.FragmentAddNewBinding
@@ -43,10 +44,7 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.DialogBtnClickListene
         binding.createNewTaskBtn.setOnClickListener {
             popupFragment = AddNewTaskPopupFragment()
             popupFragment.setListener(this)
-            popupFragment.show(
-                childFragmentManager,
-                "AddNewTaskPopupFragment"
-            )
+            popupFragment.show(childFragmentManager, "AddNewTaskPopupFragment")
         }
     }
 

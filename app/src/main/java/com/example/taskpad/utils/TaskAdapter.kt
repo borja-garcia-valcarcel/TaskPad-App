@@ -1,5 +1,6 @@
 package com.example.taskpad.utils
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ class TaskAdapter(private val list: MutableList<TaskData>) :
     RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
         private var listener: TaskAdapterClicksInterface? = null
+        private  val TAG = "TaskAdapter"
         fun setListener(listener: TaskAdapterClicksInterface) {
             this.listener = listener
         }
@@ -30,7 +32,7 @@ class TaskAdapter(private val list: MutableList<TaskData>) :
         with(holder){
             with(list[position]){
                 binding.titleTask.text = this.task
-
+                Log.d(TAG, "onBindViewHolder: "+this)
                 binding.deleteTask.setOnClickListener {
                     listener?.onDeleteTaskBtnClicked(this)
                 }

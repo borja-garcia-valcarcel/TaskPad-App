@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.example.taskpad.R
-import com.example.taskpad.databinding.FragmentAddNewBinding
 import com.example.taskpad.databinding.FragmentTaskListBinding
 import com.example.taskpad.utils.TaskAdapter
 import com.example.taskpad.utils.TaskData
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,12 +20,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface {
+class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface, AddNewTaskPopupFragment.UpdateDialogBtnClickListener {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var binding: FragmentTaskListBinding
     private lateinit var adapter: TaskAdapter
+    private var popupFragment: AddNewTaskPopupFragment? = null
     private lateinit var mList:MutableList<TaskData>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +44,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface {
         init(view)
         getDataFromFirebase()
 
+
     }
 
     private fun init(view:View) {
@@ -61,6 +60,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface {
         adapter.setListener(this)
         binding.recyclerView.adapter = adapter
     }
+
 
     private fun getDataFromFirebase() {
         databaseReference.addValueEventListener(object: ValueEventListener {
@@ -96,7 +96,26 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface {
     }
 
     override fun onEditTaskBtnClicked(taskData: TaskData) {
-        TODO("Not yet implemented")
+       if (popupFragment != null)
+            childFragmentManager.beginTransaction().remove(popupFragment!!).commit()
+
+        popupFragment = AddNewTaskPopupFragment.newInstance(taskData.taskId, taskData.task )
+        popupFragment!!.setListener(this)
+        popupFragment!!.setTaskAction("Update")
+        popupFragment!!.show(childFragmentManager, AddNewTaskPopupFragment.TAG)
+    }
+
+    override fun onUpdateTask(taskData: TaskData, newTaskEt: TextInputEditText) {
+        val map = HashMap<String, Any>()
+        map[taskData.taskId] = taskData.task
+        databaseReference.updateChildren(map).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+            popupFragment!!.dismiss()
+        }
     }
 
 

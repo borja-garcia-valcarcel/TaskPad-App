@@ -1,13 +1,11 @@
 package com.example.taskpad.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.taskpad.R
 import com.example.taskpad.databinding.FragmentAddNewTaskPopupBinding
 import com.example.taskpad.utils.TaskData
 import com.google.android.material.textfield.TextInputEditText
@@ -20,9 +18,13 @@ class AddNewTaskPopupFragment : DialogFragment() {
     private lateinit var listener: DialogBtnClickListener
     private lateinit var auth: FirebaseAuth
     private var taskData: TaskData? = null
+    private lateinit var taskAction: String
 
     fun setListener(listener: DialogBtnClickListener) {
         this.listener = listener
+    }
+    fun setTaskAction(taskAction: String) {
+        this.taskAction = taskAction
     }
 
     companion object {
@@ -43,6 +45,8 @@ class AddNewTaskPopupFragment : DialogFragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentAddNewTaskPopupBinding.inflate(inflater, container, false)
+        this.binding.popupTitle.text = this.taskAction + " Task"
+        this.binding.createTaskBtn.text = this.taskAction + " task"
         return binding.root
     }
 
@@ -66,10 +70,10 @@ class AddNewTaskPopupFragment : DialogFragment() {
             val task = binding.newTaskEt.text.toString()
             if (task.trim().isNotEmpty()) {
                 if (taskData == null) {
-                    listener.onSaveTask(task, binding.newTaskEt)
+                    (listener as SaveDialogBtnClickListener).onSaveTask(task, binding.newTaskEt)
                 }else {
                     taskData?.task = task
-                    listener.onUpdateTask(taskData!!, binding.newTaskEt)
+                    (listener as UpdateDialogBtnClickListener).onUpdateTask(taskData!!, binding.newTaskEt)
                 }
 
             } else {
@@ -81,8 +85,13 @@ class AddNewTaskPopupFragment : DialogFragment() {
         }
     }
 
-    interface DialogBtnClickListener {
+
+    // Necesario para instanciar Listener al crear Fragments que implementan interfaces derivadas de esta
+    interface DialogBtnClickListener {}
+    interface SaveDialogBtnClickListener: DialogBtnClickListener {
         fun onSaveTask(task: String, newTaskEt: TextInputEditText)
+    }
+    interface UpdateDialogBtnClickListener: DialogBtnClickListener {
         fun onUpdateTask(taskData: TaskData, newTaskEt: TextInputEditText)
     }
 

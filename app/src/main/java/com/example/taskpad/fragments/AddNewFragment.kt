@@ -6,24 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.taskpad.R
-import com.example.taskpad.databinding.ActivityHomeBinding
 import com.example.taskpad.databinding.FragmentAddNewBinding
+import com.example.taskpad.utils.TaskData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 
-class AddNewFragment : Fragment(), AddNewTaskPopupFragment.DialogBtnClickListener {
+class AddNewFragment : Fragment(), AddNewTaskPopupFragment.SaveDialogBtnClickListener {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var binding: FragmentAddNewBinding
-    private lateinit var popupFragment: AddNewTaskPopupFragment
+    private var popupFragment: AddNewTaskPopupFragment? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,9 +38,12 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.DialogBtnClickListene
 
     private fun registerEvents() {
         binding.createNewTaskBtn.setOnClickListener {
+            if (popupFragment != null)
+                childFragmentManager.beginTransaction().remove(popupFragment!!).commit()
             popupFragment = AddNewTaskPopupFragment()
-            popupFragment.setListener(this)
-            popupFragment.show(childFragmentManager, "AddNewTaskPopupFragment")
+            popupFragment!!.setListener(this)
+            popupFragment!!.setTaskAction("Create")
+            popupFragment!!.show(childFragmentManager, "AddNewTaskPopupFragment")
         }
     }
 
@@ -65,9 +64,11 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.DialogBtnClickListene
             }else {
                 Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
-            popupFragment.dismiss()
+            popupFragment!!.dismiss()
         }
     }
+
+
 
 
 }

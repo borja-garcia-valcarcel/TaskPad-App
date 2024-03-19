@@ -68,6 +68,7 @@ class AddNewNotePopupFragment : DialogFragment() {
         registerEvents()
     }
 
+
     private fun registerEvents() {
         auth = FirebaseAuth.getInstance()
         binding.createNoteBtn.setOnClickListener {

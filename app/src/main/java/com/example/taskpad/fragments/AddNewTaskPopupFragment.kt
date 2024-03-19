@@ -23,6 +23,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
     fun setListener(listener: DialogBtnClickListener) {
         this.listener = listener
     }
+
     fun setTaskAction(taskAction: String) {
         this.taskAction = taskAction
     }
@@ -71,9 +72,12 @@ class AddNewTaskPopupFragment : DialogFragment() {
             if (task.trim().isNotEmpty()) {
                 if (taskData == null) {
                     (listener as SaveDialogBtnClickListener).onSaveTask(task, binding.newTaskEt)
-                }else {
+                } else {
                     taskData?.task = task
-                    (listener as UpdateDialogBtnClickListener).onUpdateTask(taskData!!, binding.newTaskEt)
+                    (listener as UpdateDialogBtnClickListener).onUpdateTask(
+                        taskData!!,
+                        binding.newTaskEt
+                    )
                 }
 
             } else {
@@ -88,10 +92,11 @@ class AddNewTaskPopupFragment : DialogFragment() {
 
     // Necesario para instanciar Listener al crear Fragments que implementan interfaces derivadas de esta
     interface DialogBtnClickListener {}
-    interface SaveDialogBtnClickListener: DialogBtnClickListener {
+    interface SaveDialogBtnClickListener : DialogBtnClickListener {
         fun onSaveTask(task: String, newTaskEt: TextInputEditText)
     }
-    interface UpdateDialogBtnClickListener: DialogBtnClickListener {
+
+    interface UpdateDialogBtnClickListener : DialogBtnClickListener {
         fun onUpdateTask(taskData: TaskData, newTaskEt: TextInputEditText)
     }
 

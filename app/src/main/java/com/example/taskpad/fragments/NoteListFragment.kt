@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.taskpad.R
 import com.example.taskpad.databinding.FragmentNoteListBinding
 import com.example.taskpad.databinding.FragmentTaskListBinding
@@ -33,6 +35,7 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
     private lateinit var adapter: NoteAdapter
     private var popupFragment: AddNewNotePopupFragment? = null
     private lateinit var mList: MutableList<NoteData>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,7 +64,7 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
 
 
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         mList   = mutableListOf()
         adapter = NoteAdapter(mList)
         adapter.setListener(this)
@@ -75,8 +78,8 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
                 mList.clear()
                 for (noteSnapshot in snapshot.children) {
                     val noteId = noteSnapshot.key ?: ""
-                    val noteValue = noteSnapshot.child("note").getValue(String::class.java) ?: ""
-                    val noteDescValue = noteSnapshot.child("noteDesc").getValue(String::class.java) ?: ""
+                    val noteValue = noteSnapshot.child("title").getValue(String::class.java) ?: ""
+                    val noteDescValue = noteSnapshot.child("description").getValue(String::class.java) ?: ""
                     val note = NoteData(noteId, noteValue, noteDescValue)
                     mList.add(note)
                 }
@@ -99,8 +102,14 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
     ) {
         val newTitle = newNoteTitleEt.text.toString().trim()
         if (newTitle.isNotEmpty()) {
-            val noteRef = databaseReference.child(noteData.noteId).child("note").child("description")
-            noteRef.setValue(newTitle).addOnCompleteListener { task ->
+            val noteMap = HashMap<String, Any>()
+            noteMap["title"] = newTitle
+            val newDesc = newNoteDescEt.text.toString()
+            if (newDesc.isNotEmpty()) {
+                noteMap["description"] = newDesc
+            }
+            val noteRef = databaseReference.child(noteData.noteId)
+            noteRef.setValue(noteMap).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
                 } else {

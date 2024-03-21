@@ -33,6 +33,7 @@ class NoteAdapter (private val list: MutableList<NoteData>) :
         with(holder){
             with(list[position]){
                 binding.noteTitle.text = this.note
+                binding.noteDesc.text = this.noteDesc
                 Log.d(TAG, "onBindViewHolder: "+this)
                 binding.deleteNote.setOnClickListener {
                     listener?.onDeleteNoteBtnClicked(this)

@@ -64,6 +64,7 @@ class AddNewNotePopupFragment : DialogFragment() {
             )
 
             binding.newNoteTitleEt.setText(noteData?.note)
+            binding.newNoteDescEt.setText(noteData?.noteDesc)
         }
         registerEvents()
     }

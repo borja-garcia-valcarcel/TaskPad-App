@@ -2,6 +2,8 @@ package com.example.taskpad
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.taskpad.fragments.AddNewFragment
 import com.example.taskpad.fragments.NoteListFragment
@@ -15,6 +17,9 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var appBarNavigationView: NavigationView
     private lateinit var auth: FirebaseAuth
+
+    private var doubleBackToExitPressedOnce = false
+    private val doubleClickDelayMillis = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,26 @@ class HomeActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
     }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
+
+        object : CountDownTimer(doubleClickDelayMillis.toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                doubleBackToExitPressedOnce = false
+            }
+        }.start()
+    }
+
 }
 
 

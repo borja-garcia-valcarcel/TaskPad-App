@@ -19,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+        checkIfUserIsLogged()
 
         binding.loginButton.setOnClickListener{
             val email = binding.loginEmail.text.toString()
@@ -62,13 +63,14 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-
-
-
-
-
     }
 
+    private fun checkIfUserIsLogged() {
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
+    }
 
 
 

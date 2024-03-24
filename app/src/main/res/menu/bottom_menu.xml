@@ -5,7 +5,7 @@
     <item
         android:id="@+id/bottom_task_list"
         android:title="Task List"
-        android:icon="@drawable/task_list_icon" />
+        android:icon="@drawable/task_list_icon"/>
 
     <item
         android:id="@+id/bottom_add"

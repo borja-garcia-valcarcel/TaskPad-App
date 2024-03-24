@@ -107,6 +107,7 @@
                     android:paddingTop="15dp"
                     android:scrollbars="vertical"
                     android:gravity="top"
+                    android:maxLines="15"
                     tools:ignore="RtlSymmetry" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -61,5 +61,8 @@
         <action
             android:id="@+id/action_signOutFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_signOutFragment_to_homeActivity2"
+            app:destination="@id/homeActivity" />
     </fragment>
 </navigation>

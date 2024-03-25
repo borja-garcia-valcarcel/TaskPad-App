@@ -4,25 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup"
+    android:background="@drawable/fondo_generico"
     android:padding="10dp"
     tools:context=".SignupActivity">
+
+    <TextView
+        android:id="@+id/signupTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:gravity="center"
+        android:text="Sign up!"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/createNewAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/frameSignup" />
+
+    <TextView
+        android:id="@+id/createNewAccount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Create your new account"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/signupEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/signupTitle" />
+
 
     <EditText
         android:id="@+id/signupEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="370dp"
         android:layout_marginEnd="56dp"
         android:background="@drawable/edittext_border"
         android:hint="@string/SingupEmailHint"
         android:inputType="textEmailAddress"
         android:padding="12dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/signupPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/createNewAccount" />
 
     <EditText
         android:id="@+id/signupPassword"
@@ -32,6 +64,7 @@
         android:layout_marginEnd="56dp"
         android:background="@drawable/edittext_border"
         android:hint="@string/SignupPasswordHint"
+        android:textColor="@color/black"
         android:inputType="textPassword"
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@+id/repeatSignupPassword"
@@ -48,6 +81,7 @@
         android:layout_marginEnd="56dp"
         android:background="@drawable/edittext_border"
         android:hint="@string/Repeat_PasswordHint"
+        android:textColor="@color/black"
         android:inputType="textPassword"
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@+id/signupButton"
@@ -63,11 +97,13 @@
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="56dp"
         android:text="@string/SignupBtn"
-        app:layout_constraintBottom_toTopOf="@+id/loginText"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blueA200"
+        app:layout_constraintBottom_toBottomOf="@id/frameSignup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repeatSignupPassword" />
-    
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -83,10 +119,21 @@
         app:layout_constraintTop_toBottomOf="@id/signupButton"/>
 
 
+    <FrameLayout
+        android:id="@+id/frameSignup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="90dp"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintBottom_toTopOf="@id/loginText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-
-
+    </FrameLayout>
 
 
 

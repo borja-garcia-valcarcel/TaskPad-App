@@ -18,8 +18,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var appBarNavigationView: NavigationView
     private lateinit var auth: FirebaseAuth
 
-    private var doubleBackToExitPressedOnce = false
-    private val doubleClickDelayMillis = 2000
+    private var doubleClickToExit = false
+    private val doubleClickDelay = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,20 +65,20 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (doubleClickToExit) {
             super.onBackPressed()
             return
         }
 
-        this.doubleBackToExitPressedOnce = true
+        this.doubleClickToExit = true
         Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
 
-        object : CountDownTimer(doubleClickDelayMillis.toLong(), 1000) {
+        object : CountDownTimer(doubleClickDelay.toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
             }
 
             override fun onFinish() {
-                doubleBackToExitPressedOnce = false
+                doubleClickToExit = false
             }
         }.start()
     }

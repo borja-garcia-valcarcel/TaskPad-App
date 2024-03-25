@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/closeTaskPopup"
@@ -28,6 +29,7 @@
             android:textSize="20sp"
             android:paddingTop="20dp"
             android:paddingBottom="10dp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/cvNewTask"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@color/white"
+                    android:textColor="@color/black"
                     android:hint="Write your Task"
                     android:inputType="textEmailAddress"
                     android:paddingStart="12dp"
@@ -79,7 +82,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvNewTask" />
+            app:layout_constraintTop_toBottomOf="@+id/cvNewTask"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blueA200"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

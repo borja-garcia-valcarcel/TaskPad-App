@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
 class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
     AddNewTaskPopupFragment.UpdateDialogBtnClickListener {
 
@@ -29,23 +28,19 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
     private lateinit var adapter: TaskAdapter
     private var popupFragment: AddNewTaskPopupFragment? = null
     private lateinit var mList: MutableList<TaskData>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Inflate the layout for this fragment
         binding = FragmentTaskListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init(view)
         getDataFromFirebase()
-
-
     }
 
     private fun init(view: View) {
@@ -55,16 +50,13 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
             .child(auth.currentUser?.uid.toString())
             .child("tasks")
 
-
-
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        mList   = mutableListOf()
-        adapter = TaskAdapter(mList)
+        mList = mutableListOf()
+        adapter = TaskAdapter(mList, requireContext())
         adapter.setListener(this)
         binding.recyclerView.adapter = adapter
     }
-
 
     private fun getDataFromFirebase() {
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -83,10 +75,8 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
             }
-
         })
     }
-
 
     override fun onDeleteTaskBtnClicked(taskData: TaskData) {
         databaseReference.child(taskData.taskId).removeValue().addOnCompleteListener {
@@ -124,6 +114,4 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
             Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 }

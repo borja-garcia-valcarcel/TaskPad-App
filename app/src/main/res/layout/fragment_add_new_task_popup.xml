@@ -77,14 +77,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="100dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/blueA200"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvNewTask"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/blueA200"/>
+            app:layout_constraintTop_toBottomOf="@+id/cvNewTask" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

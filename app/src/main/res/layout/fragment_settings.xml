@@ -9,42 +9,54 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/closeSettingsPopup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/close_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/popupSettingsTitle"
+        <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:paddingBottom="0dp"
-            android:textStyle="bold"
-            android:text="My account"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/closeSettingsPopup" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/popupSettingsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:padding="5dp"
+                android:layout_weight="200"
+                android:gravity="center"
+                android:text="My account"
+                android:textColor="@color/blueA200"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/closeSettingsPopup"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top"
+                android:layout_marginEnd="2dp"
+                android:src="@drawable/close_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/blueA700" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/profile_icon"
+            app:layout_constraintBottom_toTopOf="@+id/currentUserLoggedText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/popupSettingsTitle"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
             app:tint="@color/blueA200" />
 
         <TextView
@@ -52,13 +64,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="15dp"
             android:text="Current User Logged:"
             android:textColor="@color/black"
-            android:textAlignment="textStart"
             android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/userEmailTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -68,12 +81,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/edittext_border"
             android:backgroundTint="@color/grey"
             android:padding="12dp"
             android:textColor="@color/black100"
+            app:layout_constraintBottom_toTopOf="@+id/signOutButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentUserLoggedText" />

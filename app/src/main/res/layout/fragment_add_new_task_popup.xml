@@ -4,13 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.AddNewTaskPopupFragment">
+    app:cardPreventCornerOverlap="false"
+    tools:context=".fragments.AddNewTaskPopupFragment"
+    app:cardCornerRadius="8dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
+
+
+        <TextView
+            android:id="@+id/popupTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/blueA200"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/cvNewTask"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <ImageView
             android:id="@+id/closeTaskPopup"
@@ -19,22 +38,8 @@
             android:layout_marginTop="12dp"
             android:src="@drawable/close_icon"
             app:layout_constraintEnd_toEndOf="@+id/cvNewTask"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/popupTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/cvNewTask"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blueA700" />
 
 
         <com.google.android.material.card.MaterialCardView
@@ -45,6 +50,7 @@
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toTopOf="@+id/createTaskBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +69,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@color/white"
-                    android:textColor="@color/black"
                     android:hint="Write your Task"
                     android:inputType="textEmailAddress"
+                    android:maxLength="100"
                     android:paddingStart="12dp"
-                    android:paddingTop="15dp" />
+                    android:paddingTop="15dp"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </com.google.android.material.card.MaterialCardView>

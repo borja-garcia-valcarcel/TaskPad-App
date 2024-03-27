@@ -5,11 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardElevation="6dp"
         app:cardCornerRadius="20dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:backgroundTint="@color/white">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:backgroundTint="@color/white">
 
     <LinearLayout
         android:id="@+id/noteContent"
@@ -44,7 +43,8 @@
             android:src="@drawable/close_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blueA700" />
 
 
     </LinearLayout>

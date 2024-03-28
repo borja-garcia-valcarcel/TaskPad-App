@@ -20,7 +20,7 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     //LogOut
-    <string name="LogOut"><u>LogOut</u></string>
+    <string name="Logout"><u>Logout</u></string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

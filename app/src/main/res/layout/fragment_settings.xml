@@ -101,7 +101,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="40dp"
-            android:text="@string/LogOut"
+            android:text="@string/Logout"
             android:textColor="@color/white"
             android:backgroundTint="@color/blueA200"
             app:layout_constraintBottom_toBottomOf="parent"

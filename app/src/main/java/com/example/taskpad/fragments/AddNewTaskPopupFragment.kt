@@ -1,16 +1,19 @@
 package com.example.taskpad.fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.taskpad.databinding.FragmentAddNewTaskPopupBinding
 import com.example.taskpad.utils.TaskData
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddNewTaskPopupFragment : DialogFragment() {
 
@@ -19,6 +22,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
     private lateinit var auth: FirebaseAuth
     private var taskData: TaskData? = null
     private lateinit var taskAction: String
+    private lateinit var selectedDueDate: Calendar
 
     fun setListener(listener: DialogBtnClickListener) {
         this.listener = listener
@@ -32,10 +36,11 @@ class AddNewTaskPopupFragment : DialogFragment() {
         const val TAG = "AddNewTaskPopupFragment"
 
         @JvmStatic
-        fun newInstance(taskId: String, task: String) = AddNewTaskPopupFragment().apply {
+        fun newInstance(taskId: String, task: String, dueDate: Calendar?) = AddNewTaskPopupFragment().apply {
             arguments = Bundle().apply {
                 putString("taskId", taskId)
                 putString("task", task)
+                putString("dueDate", dueDate.toString())
             }
         }
     }
@@ -44,7 +49,6 @@ class AddNewTaskPopupFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAddNewTaskPopupBinding.inflate(inflater, container, false)
         this.binding.popupTitle.text = this.taskAction + " Task"
         this.binding.createTaskBtn.text = this.taskAction + " task"
@@ -53,6 +57,8 @@ class AddNewTaskPopupFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        selectedDueDate = Calendar.getInstance()
 
         if (arguments != null) {
             taskData = TaskData(
@@ -67,38 +73,58 @@ class AddNewTaskPopupFragment : DialogFragment() {
 
     private fun registerEvents() {
         auth = FirebaseAuth.getInstance()
+
+        // Mostrar DatePicker al hacer clic en el campo de fecha de fin
+        binding.dueDateEt.setOnClickListener {
+            showDatePicker()
+        }
+
         binding.createTaskBtn.setOnClickListener {
             val task = binding.newTaskEt.text.toString()
             if (task.trim().isNotEmpty()) {
                 if (taskData == null) {
-                    (listener as SaveDialogBtnClickListener).onSaveTask(task, binding.newTaskEt)
+                    (listener as SaveDialogBtnClickListener).onSaveTask(task, selectedDueDate, binding.newTaskEt)
                 } else {
                     taskData?.task = task
                     (listener as UpdateDialogBtnClickListener).onUpdateTask(
                         taskData!!,
+                        selectedDueDate,
                         binding.newTaskEt
                     )
                 }
-
             } else {
-                Toast.makeText(context, "Please write your task", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
+
         binding.closeTaskPopup.setOnClickListener {
             dismiss()
         }
     }
 
+    // Función para mostrar el DatePicker
+    private fun showDatePicker() {
+        val datePicker = DatePickerDialog(
+            requireContext(),
+            { _: DatePicker, year: Int, month: Int, day: Int ->
+                selectedDueDate.set(year, month, day)
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                binding.dueDateEt.setText(sdf.format(selectedDueDate.time))
+            },
+            selectedDueDate.get(Calendar.YEAR),
+            selectedDueDate.get(Calendar.MONTH),
+            selectedDueDate.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
+    }
 
-    // Necesario para instanciar Listener al crear Fragments que implementan interfaces derivadas de esta
     interface DialogBtnClickListener {}
+
     interface SaveDialogBtnClickListener : DialogBtnClickListener {
-        fun onSaveTask(task: String, newTaskEt: TextInputEditText)
+        fun onSaveTask(task: String, dueDate: Calendar?, newTaskEt: TextInputEditText)
     }
 
     interface UpdateDialogBtnClickListener : DialogBtnClickListener {
-        fun onUpdateTask(taskData: TaskData, newTaskEt: TextInputEditText)
+        fun onUpdateTask(taskData: TaskData, dueDate: Calendar, newTaskEt: TextInputEditText)
     }
-
-
 }

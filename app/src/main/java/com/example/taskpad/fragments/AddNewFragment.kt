@@ -11,9 +11,12 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-
-class AddNewFragment : Fragment(), AddNewTaskPopupFragment.SaveDialogBtnClickListener,
+class AddNewFragment : Fragment(),
+    AddNewTaskPopupFragment.SaveDialogBtnClickListener,
     AddNewNotePopupFragment.SaveDialogBtnClickListener {
 
     private lateinit var auth: FirebaseAuth
@@ -73,29 +76,58 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.SaveDialogBtnClickLis
         popupFragmentNote!!.show(childFragmentManager, "AddNewNotePopupFragment")
     }
 
+    override fun onSaveTask(task: String, dueDate: Calendar?, newTaskEt: TextInputEditText) {
+        if (dueDate != null && dueDate.before(Calendar.getInstance()) && !isSameDay(dueDate, Calendar.getInstance())) {
+            Toast.makeText(context, "Due date cannot be earlier than today", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-    override fun onSaveTask(task: String, newTaskEt: TextInputEditText) {
         val taskMap = HashMap<String, Any>()
         taskMap["task"] = task
 
-        databaseReference.child("tasks").push().setValue(taskMap).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Toast.makeText(context, "Task saved successfully", Toast.LENGTH_SHORT).show()
-                newTaskEt.text = null
-            } else {
-                Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
-            }
-            popupFragmentTask!!.dismiss()
+        // Agregar la fecha solo si no es null
+        dueDate?.let {
+            taskMap["dueDate"] = formatDate(it)
+
+            val currentDate = Calendar.getInstance()
+            val diff = it.timeInMillis - currentDate.timeInMillis
+            val days = diff / (24 * 60 * 60 * 1000)
+            taskMap["daysLeft"] = days
         }
+
+        databaseReference.child("tasks").push().setValue(taskMap)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "Task saved successfully", Toast.LENGTH_SHORT).show()
+                    newTaskEt.text = null
+                } else {
+                    Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+                popupFragmentTask?.dismiss()
+            }
     }
 
 
-    override fun onSaveNote(
-        note: String,
-        newNoteTitleEt: TextInputEditText,
-        newNoteDescEt: TextInputEditText
+
+    // Función para formatear la fecha a un formato específico (dd/MM/yyyy)
+    private fun formatDate(dueDate: Calendar?): String {
+        return dueDate?.let {
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            simpleDateFormat.format(it.time)
+        } ?: ""
+    }
+
+    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
+    }
+
+
+
+
+    override fun onSaveNote(note: String, newNoteTitleEt: TextInputEditText, newNoteDescEt: TextInputEditText
     ) {
-        // Map para poder visualizar correctamente los datos en Firebase Realtime Database
         val noteMap = HashMap<String, Any>()
         noteMap["title"] = note
         val description = newNoteDescEt.text.toString()
@@ -111,7 +143,9 @@ class AddNewFragment : Fragment(), AddNewTaskPopupFragment.SaveDialogBtnClickLis
             } else {
                 Toast.makeText(context, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
-            popupFragmentNote!!.dismiss()
+            popupFragmentNote?.dismiss()
         }
     }
+
 }
+

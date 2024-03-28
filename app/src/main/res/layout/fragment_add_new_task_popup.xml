@@ -8,13 +8,12 @@
     tools:context=".fragments.AddNewTaskPopupFragment"
     app:cardCornerRadius="8dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-
+        <!-- Título del popup -->
         <TextView
             android:id="@+id/popupTitle"
             android:layout_width="match_parent"
@@ -30,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <!-- Botón para cerrar el popup -->
         <ImageView
             android:id="@+id/closeTaskPopup"
             android:layout_width="25dp"
@@ -41,16 +40,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/blueA700" />
 
-
+        <!-- Campo para el nombre de la tarea -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cvNewTask"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="@+id/createTaskBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +78,45 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Campo para la fecha de fin de la tarea -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvDueDate"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvNewTask">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dueDateEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:hint="Due Date"
+                    android:inputType="none"
+                    android:paddingStart="12dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/black"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón para crear la tarea -->
         <Button
             android:id="@+id/createTaskBtn"
             android:layout_width="0dp"
@@ -93,7 +131,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvNewTask" />
+            app:layout_constraintTop_toBottomOf="@+id/cvDueDate" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

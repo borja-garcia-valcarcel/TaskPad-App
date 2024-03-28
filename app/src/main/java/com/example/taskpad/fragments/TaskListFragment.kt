@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
     AddNewTaskPopupFragment.UpdateDialogBtnClickListener {
@@ -66,7 +68,16 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
                 for (taskSnapshot in snapshot.children) {
                     val taskId = taskSnapshot.key ?: ""
                     val taskValue = taskSnapshot.child("task").getValue(String::class.java) ?: ""
-                    val task = TaskData(taskId, taskValue)
+                    val dueDateValue = taskSnapshot.child("dueDate").getValue(String::class.java)
+
+                    var dueDate: Calendar? = null
+                    if (dueDateValue != null && dueDateValue.isNotEmpty()) {
+                        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        dueDate = Calendar.getInstance()
+                        dueDate.time = sdf.parse(dueDateValue) ?: Date()
+                    }
+
+                    val task = TaskData(taskId, taskValue, dueDate)
                     mList.add(task)
                 }
                 adapter.notifyDataSetChanged()
@@ -77,6 +88,8 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
             }
         })
     }
+
+
 
     override fun onDeleteTaskBtnClicked(taskData: TaskData) {
         databaseReference.child(taskData.taskId).removeValue().addOnCompleteListener {
@@ -92,26 +105,62 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
         if (popupFragment != null)
             childFragmentManager.beginTransaction().remove(popupFragment!!).commit()
 
-        popupFragment = AddNewTaskPopupFragment.newInstance(taskData.taskId, taskData.task)
+        popupFragment = AddNewTaskPopupFragment.newInstance(taskData.taskId, taskData.task, taskData.dueDate)
         popupFragment!!.setListener(this)
         popupFragment!!.setTaskAction("Update")
         popupFragment!!.show(childFragmentManager, AddNewTaskPopupFragment.TAG)
     }
 
-    override fun onUpdateTask(taskData: TaskData, newTaskEt: TextInputEditText) {
+
+    override fun onUpdateTask(taskData: TaskData, dueDate: Calendar, newTaskEt: TextInputEditText) {
         val newTitle = newTaskEt.text.toString().trim()
+
         if (newTitle.isNotEmpty()) {
-            val taskRef = databaseReference.child(taskData.taskId).child("task")
-            taskRef.setValue(newTitle).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
-                }
-                popupFragment!!.dismiss()
+            if (dueDate.before(Calendar.getInstance()) && !isSameDay(dueDate, Calendar.getInstance())) {
+                Toast.makeText(context, "Due date cannot be earlier than today", Toast.LENGTH_SHORT).show()
+                return
             }
+
+            val taskMap = HashMap<String, Any>()
+            taskMap["task"] = newTitle
+
+            // Aquí establecemos el valor del campo de fecha
+            val formattedDate = formatDate(dueDate)
+            taskMap["dueDate"] = formattedDate
+
+            // Calcular los días restantes
+            val currentDate = Calendar.getInstance().time
+            val diff = dueDate.timeInMillis - currentDate.time
+            val days = diff / (24 * 60 * 60 * 1000)
+            taskMap["daysLeft"] = days
+
+            val taskRef = databaseReference.child(taskData.taskId)
+            taskRef.updateChildren(taskMap)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+                    popupFragment!!.dismiss()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(context, "Error updating task: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
         } else {
             Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+    private fun formatDate(calendar: Calendar): String {
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return simpleDateFormat.format(calendar.time)
+    }
+
+    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
+    }
+
 }
+
+

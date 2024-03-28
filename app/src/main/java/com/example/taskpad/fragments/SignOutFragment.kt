@@ -38,7 +38,7 @@ class SignOutFragment : DialogFragment() {
         binding.signOutButton.setOnClickListener {
             // Cierra sesion de usuario al hacer click y envia un toast de confirmacion
             auth.signOut()
-            Toast.makeText(context, "Sign Out successful", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Logout successful", Toast.LENGTH_SHORT).show()
 
             // Redirige a la activity de Login
             val intent = Intent(activity, LoginActivity::class.java)

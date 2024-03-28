@@ -1,3 +1,5 @@
 package com.example.taskpad.utils
 
-data class TaskData(val taskId: String, var task: String, var isCompleted: Boolean = false)
+import java.util.Calendar
+
+data class TaskData(val taskId: String, var task: String, var dueDate: Calendar? = null)

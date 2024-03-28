@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskpad.databinding.TaskListItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TaskAdapter(private val list: MutableList<TaskData>, private val context: Context) :
     RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
@@ -15,6 +17,7 @@ class TaskAdapter(private val list: MutableList<TaskData>, private val context: 
     private var listener: TaskAdapterClicksInterface? = null
     private val TAG = "TaskAdapter"
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("TaskPreferences", Context.MODE_PRIVATE)
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     fun setListener(listener: TaskAdapterClicksInterface) {
         this.listener = listener
@@ -37,6 +40,18 @@ class TaskAdapter(private val list: MutableList<TaskData>, private val context: 
         with(holder){
             with(currentItem){
                 binding.titleTask.text = this.task
+                binding.dueDate.text = this.dueDate?.let { dateFormat.format(it.time) } ?: "No Due Date"
+
+                // Calcular los días restantes
+                val currentDate = Calendar.getInstance().timeInMillis
+                val dueDateValue = this.dueDate?.timeInMillis
+                if (dueDateValue != null) {
+                    val diff = dueDateValue - currentDate
+                    val days = diff / (24 * 60 * 60 * 1000)
+                    binding.daysLeft.text = "$days days left"
+                } else {
+                    binding.daysLeft.text = "No Due Date"
+                }
 
                 // Obtener el estado de isCompleted desde SharedPreferences
                 val isCompleted = sharedPreferences.getBoolean(this.taskId, false)

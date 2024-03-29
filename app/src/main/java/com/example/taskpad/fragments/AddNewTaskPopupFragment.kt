@@ -36,11 +36,11 @@ class AddNewTaskPopupFragment : DialogFragment() {
         const val TAG = "AddNewTaskPopupFragment"
 
         @JvmStatic
-        fun newInstance(taskId: String, task: String, dueDate: Calendar?) = AddNewTaskPopupFragment().apply {
+        fun newInstance(taskId: String, task: String, dueDate: String?) = AddNewTaskPopupFragment().apply {
             arguments = Bundle().apply {
                 putString("taskId", taskId)
                 putString("task", task)
-                putString("dueDate", dueDate.toString())
+                putString("dueDate", dueDate)
             }
         }
     }
@@ -63,10 +63,12 @@ class AddNewTaskPopupFragment : DialogFragment() {
         if (arguments != null) {
             taskData = TaskData(
                 arguments?.getString("taskId").toString(),
-                arguments?.getString("task").toString()
+                arguments?.getString("task").toString(),
+                arguments?.getString("dueDate").toString()
             )
 
             binding.newTaskEt.setText(taskData?.task)
+            binding.dueDateEt.setText(taskData?.dueDate)
         }
         registerEvents()
     }
@@ -81,14 +83,15 @@ class AddNewTaskPopupFragment : DialogFragment() {
 
         binding.createTaskBtn.setOnClickListener {
             val task = binding.newTaskEt.text.toString()
+            val dueDate = binding.dueDateEt.text.toString()
             if (task.trim().isNotEmpty()) {
                 if (taskData == null) {
-                    (listener as SaveDialogBtnClickListener).onSaveTask(task, selectedDueDate, binding.newTaskEt)
+                    (listener as SaveDialogBtnClickListener).onSaveTask(task, dueDate, binding.newTaskEt)
                 } else {
                     taskData?.task = task
                     (listener as UpdateDialogBtnClickListener).onUpdateTask(
                         taskData!!,
-                        selectedDueDate,
+                        dueDate,
                         binding.newTaskEt
                     )
                 }
@@ -104,10 +107,14 @@ class AddNewTaskPopupFragment : DialogFragment() {
 
     // Función para mostrar el DatePicker
     private fun showDatePicker() {
+        selectedDueDate = Calendar.getInstance()
         val datePicker = DatePickerDialog(
             requireContext(),
             { _: DatePicker, year: Int, month: Int, day: Int ->
                 selectedDueDate.set(year, month, day)
+
+
+
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 binding.dueDateEt.setText(sdf.format(selectedDueDate.time))
             },
@@ -115,16 +122,18 @@ class AddNewTaskPopupFragment : DialogFragment() {
             selectedDueDate.get(Calendar.MONTH),
             selectedDueDate.get(Calendar.DAY_OF_MONTH)
         )
+        datePicker.datePicker.minDate = Calendar.getInstance().timeInMillis
         datePicker.show()
     }
+
 
     interface DialogBtnClickListener {}
 
     interface SaveDialogBtnClickListener : DialogBtnClickListener {
-        fun onSaveTask(task: String, dueDate: Calendar?, newTaskEt: TextInputEditText)
+        fun onSaveTask(task: String, dueDate: String, newTaskEt: TextInputEditText)
     }
 
     interface UpdateDialogBtnClickListener : DialogBtnClickListener {
-        fun onUpdateTask(taskData: TaskData, dueDate: Calendar, newTaskEt: TextInputEditText)
+        fun onUpdateTask(taskData: TaskData, dueDate: String, newTaskEt: TextInputEditText)
     }
 }

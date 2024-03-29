@@ -70,14 +70,8 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
                     val taskValue = taskSnapshot.child("task").getValue(String::class.java) ?: ""
                     val dueDateValue = taskSnapshot.child("dueDate").getValue(String::class.java)
 
-                    var dueDate: Calendar? = null
-                    if (dueDateValue != null && dueDateValue.isNotEmpty()) {
-                        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        dueDate = Calendar.getInstance()
-                        dueDate.time = sdf.parse(dueDateValue) ?: Date()
-                    }
 
-                    val task = TaskData(taskId, taskValue, dueDate)
+                    val task = TaskData(taskId, taskValue, dueDateValue)
                     mList.add(task)
                 }
                 adapter.notifyDataSetChanged()
@@ -112,27 +106,17 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
     }
 
 
-    override fun onUpdateTask(taskData: TaskData, dueDate: Calendar, newTaskEt: TextInputEditText) {
+    override fun onUpdateTask(taskData: TaskData, dueDate: String, newTaskEt: TextInputEditText) {
         val newTitle = newTaskEt.text.toString().trim()
 
-        if (newTitle.isNotEmpty()) {
-            if (dueDate.before(Calendar.getInstance()) && !isSameDay(dueDate, Calendar.getInstance())) {
-                Toast.makeText(context, "Due date cannot be earlier than today", Toast.LENGTH_SHORT).show()
-                return
-            }
 
             val taskMap = HashMap<String, Any>()
             taskMap["task"] = newTitle
 
             // Aquí establecemos el valor del campo de fecha
-            val formattedDate = formatDate(dueDate)
-            taskMap["dueDate"] = formattedDate
 
-            // Calcular los días restantes
-            val currentDate = Calendar.getInstance().time
-            val diff = dueDate.timeInMillis - currentDate.time
-            val days = diff / (24 * 60 * 60 * 1000)
-            taskMap["daysLeft"] = days
+            taskMap["dueDate"] = dueDate
+
 
             val taskRef = databaseReference.child(taskData.taskId)
             taskRef.updateChildren(taskMap)
@@ -143,23 +127,12 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
                 .addOnFailureListener { exception ->
                     Toast.makeText(context, "Error updating task: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
-        } else {
-            Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
-        }
+
     }
 
 
 
-    private fun formatDate(calendar: Calendar): String {
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return simpleDateFormat.format(calendar.time)
-    }
 
-    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
-    }
 
 }
 

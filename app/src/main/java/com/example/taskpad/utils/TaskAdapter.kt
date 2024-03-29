@@ -40,12 +40,14 @@ class TaskAdapter(private val list: MutableList<TaskData>, private val context: 
         with(holder){
             with(currentItem){
                 binding.titleTask.text = this.task
-                binding.dueDate.text = this.dueDate?.let { dateFormat.format(it.time) } ?: "No Due Date"
+                binding.dueDate.text = this.dueDate ?: "No Due Date"
 
                 // Calcular los días restantes
+                if (dueDate != "") {
                 val currentDate = Calendar.getInstance().timeInMillis
-                val dueDateValue = this.dueDate?.timeInMillis
-                if (dueDateValue != null) {
+                val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val dueDateValue = sdf.parse(dueDate).time
+
                     val diff = dueDateValue - currentDate
                     val days = diff / (24 * 60 * 60 * 1000)
                     binding.daysLeft.text = "$days days left"

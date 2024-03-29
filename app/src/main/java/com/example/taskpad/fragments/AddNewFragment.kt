@@ -76,24 +76,16 @@ class AddNewFragment : Fragment(),
         popupFragmentNote!!.show(childFragmentManager, "AddNewNotePopupFragment")
     }
 
-    override fun onSaveTask(task: String, dueDate: Calendar?, newTaskEt: TextInputEditText) {
-        if (dueDate != null && dueDate.before(Calendar.getInstance()) && !isSameDay(dueDate, Calendar.getInstance())) {
-            Toast.makeText(context, "Due date cannot be earlier than today", Toast.LENGTH_SHORT).show()
-            return
-        }
+    override fun onSaveTask(task: String, dueDate: String, newTaskEt: TextInputEditText) {
+
 
         val taskMap = HashMap<String, Any>()
         taskMap["task"] = task
 
-        // Agregar la fecha solo si no es null
-        dueDate?.let {
-            taskMap["dueDate"] = formatDate(it)
 
-            val currentDate = Calendar.getInstance()
-            val diff = it.timeInMillis - currentDate.timeInMillis
-            val days = diff / (24 * 60 * 60 * 1000)
-            taskMap["daysLeft"] = days
-        }
+
+            taskMap["dueDate"] = dueDate
+
 
         databaseReference.child("tasks").push().setValue(taskMap)
             .addOnCompleteListener {
@@ -117,11 +109,7 @@ class AddNewFragment : Fragment(),
         } ?: ""
     }
 
-    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
-    }
+
 
 
 

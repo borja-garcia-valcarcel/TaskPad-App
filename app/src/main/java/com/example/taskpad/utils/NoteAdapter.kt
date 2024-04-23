@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskpad.databinding.NoteListItemBinding
 
-
+    // Adaptador para la vista de las notas
 
 class NoteAdapter (private val list: MutableList<NoteData>) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {

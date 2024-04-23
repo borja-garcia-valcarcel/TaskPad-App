@@ -40,6 +40,7 @@ class AddNewFragment : Fragment(),
         registerEvents()
     }
 
+    // Se inicializa una instancia de Firebase y se comprueba el usuario autenticado
     private fun init() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
@@ -49,6 +50,7 @@ class AddNewFragment : Fragment(),
         }
     }
 
+    // funcion para registrar los eventos al pulsar los botones de crear
     private fun registerEvents() {
         binding.createNewTaskBtn.setOnClickListener {
             showTaskPopup()
@@ -57,7 +59,7 @@ class AddNewFragment : Fragment(),
             showNotePopup()
         }
     }
-
+    // Funcion para mostrar el PopUp de creacion de tareas
     private fun showTaskPopup() {
         if (popupFragmentTask != null)
             childFragmentManager.beginTransaction().remove(popupFragmentTask!!).commit()
@@ -67,6 +69,7 @@ class AddNewFragment : Fragment(),
         popupFragmentTask!!.show(childFragmentManager, "AddNewTaskPopupFragment")
     }
 
+    // Funcion para mostrar el PopUp de creacion de notas
     private fun showNotePopup() {
         if (popupFragmentNote != null)
             childFragmentManager.beginTransaction().remove(popupFragmentNote!!).commit()
@@ -76,15 +79,12 @@ class AddNewFragment : Fragment(),
         popupFragmentNote!!.show(childFragmentManager, "AddNewNotePopupFragment")
     }
 
+    // En esta funcion se guarda la tarea en Firebase con un Map. Se crean los nodos de task y DueDate en la bbdd
     override fun onSaveTask(task: String, dueDate: String, newTaskEt: TextInputEditText) {
-
 
         val taskMap = HashMap<String, Any>()
         taskMap["task"] = task
-
-
-
-            taskMap["dueDate"] = dueDate
+        taskMap["dueDate"] = dueDate
 
 
         databaseReference.child("tasks").push().setValue(taskMap)
@@ -113,7 +113,7 @@ class AddNewFragment : Fragment(),
 
 
 
-
+    // En esta funcion se guarda la nota en Firebase con un Map. Se crean los nodos de Title y Description en la bbdd
     override fun onSaveNote(note: String, newNoteTitleEt: TextInputEditText, newNoteDescEt: TextInputEditText
     ) {
         val noteMap = HashMap<String, Any>()

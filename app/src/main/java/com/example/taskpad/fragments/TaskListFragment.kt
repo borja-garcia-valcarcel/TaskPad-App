@@ -45,6 +45,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
         getDataFromFirebase()
     }
 
+    // funcion para verificar sesión correcta del usuario. Crea el nodo de tasks. Inicializa lista y adapter.
     private fun init(view: View) {
         auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
@@ -60,6 +61,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
         binding.recyclerView.adapter = adapter
     }
 
+    // funcion para recuperar los datos de las tareas en firebase
     private fun getDataFromFirebase() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -84,7 +86,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
     }
 
 
-
+    // funcion para eliminar una tarea en la app y en la bbdd
     override fun onDeleteTaskBtnClicked(taskData: TaskData) {
         databaseReference.child(taskData.taskId).removeValue().addOnCompleteListener {
             if (it.isSuccessful) {
@@ -95,6 +97,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
         }
     }
 
+    // funcion para abrir el popup de edicion de tarea al pulsar en la tarea
     override fun onEditTaskBtnClicked(taskData: TaskData) {
         if (popupFragment != null)
             childFragmentManager.beginTransaction().remove(popupFragment!!).commit()
@@ -105,7 +108,7 @@ class TaskListFragment : Fragment(), TaskAdapter.TaskAdapterClicksInterface,
         popupFragment!!.show(childFragmentManager, AddNewTaskPopupFragment.TAG)
     }
 
-
+    // funcion para actualizar la tarea mediante el mismo popup de creacion
     override fun onUpdateTask(taskData: TaskData, dueDate: String, newTaskEt: TextInputEditText) {
         val newTitle = newTaskEt.text.toString().trim()
 

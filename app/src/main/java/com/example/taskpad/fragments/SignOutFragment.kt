@@ -29,31 +29,24 @@ class SignOutFragment : DialogFragment() {
         return binding.root
     }
 
+    // funcionalidad para cerrar sesión de usuario, muestra un popup con el boton de cierre y el correo logueado
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         auth = Firebase.auth
         userEmailTextView = view.findViewById(R.id.userEmailTextView)
-
         binding.signOutButton.setOnClickListener {
-            // Cierra sesion de usuario al hacer click y envia un toast de confirmacion
             auth.signOut()
             Toast.makeText(context, "Logout successful", Toast.LENGTH_SHORT).show()
-
-            // Redirige a la activity de Login
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
-
-            // Finaliza la activity
             activity?.finish()
         }
 
-        // Cierra el popup
         binding.closeSettingsPopup.setOnClickListener {
             dismiss()
         }
 
-        // Muestra correo electronico logeado
         val currentUser = auth.currentUser
         val userEmail = currentUser?.email
         userEmailTextView.text = userEmail ?: "Email is not available"

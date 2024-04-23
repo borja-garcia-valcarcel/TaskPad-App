@@ -29,7 +29,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
         binding.resetEmailButton.setOnClickListener {
             val email = binding.recoveryEmail.text.toString()
             forgotPassword(email)
-
         }
 
         binding.backLogin.setOnClickListener {
@@ -40,7 +39,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     }
 
-
+    // validacion de email
     private fun validateEmail(email: String): Boolean {
 
         val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
@@ -56,15 +55,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
     }
 
+    // funcion para enviar correo de reset password
     private fun forgotPassword(email: String) {
-
         if (!validateEmail(email)) {
-
             return
         }
-
-
-
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 startActivity(Intent(this, LoginActivity::class.java))

@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        // se implementa la funcion de persistencia de usuario
         auth = FirebaseAuth.getInstance()
         checkIfUserIsLogged()
 
@@ -65,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    // funcion que hace que el usuario persista en la aplicacion hasta que hace logout
     private fun checkIfUserIsLogged() {
         if (auth.currentUser != null) {
             startActivity(Intent(this, HomeActivity::class.java))

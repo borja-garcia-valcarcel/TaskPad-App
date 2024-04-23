@@ -40,7 +40,6 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentNoteListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,14 +53,13 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
 
     }
 
+    // Se crea el nodo de notas en la bbdd y se inicializan los adapters y la lista
     private fun init(view: View) {
         auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().reference
             .child("users")
             .child(auth.currentUser?.uid.toString())
             .child("notes")
-
-
 
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
@@ -71,6 +69,8 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
         binding.recyclerView.adapter = adapter
     }
 
+
+    // funcion para recuperar los datos de firebase
     private fun getDataFromFirebase() {
         databaseReference.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -93,7 +93,7 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
         })
     }
 
-
+    // funcion para actualizar la nota existente en la app y la bbdd
 
     override fun onUpdateNote(
         noteData: NoteData,
@@ -122,6 +122,7 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
         }
     }
 
+        // funcion para eliminar una nota existente en la app y la bbdd
     override fun onDeleteNoteBtnClicked(noteData: NoteData) {
         databaseReference.child(noteData.noteId).removeValue().addOnCompleteListener {
             if (it.isSuccessful) {
@@ -132,6 +133,7 @@ AddNewNotePopupFragment.UpdateDialogBtnClickListener {
         }
     }
 
+    // funcionalidad de pulsar en una nota para editarla y abrir el popup
     override fun onEditNoteBtnClicked(noteData: NoteData) {
         if (popupFragment != null)
             childFragmentManager.beginTransaction().remove(popupFragment!!).commit()

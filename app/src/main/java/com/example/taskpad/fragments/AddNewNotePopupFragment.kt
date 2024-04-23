@@ -29,6 +29,7 @@ class AddNewNotePopupFragment : DialogFragment() {
         this.noteAction = noteAction
     }
 
+    // companion object para crear el nodo en la bbdd, con esta instancia se añade noteid, note y noteDesc
     companion object {
         const val TAG = "AddNewNotePopupFragment"
 
@@ -42,11 +43,11 @@ class AddNewNotePopupFragment : DialogFragment() {
         }
     }
 
+    // Aqui se cambia el nombre del popup en base a si el usuario esta editando o creando la nota
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAddNewNotePopupBinding.inflate(inflater, container, false)
         this.binding.popupTitle.text = this.noteAction + " note"
         this.binding.createNoteBtn.text = this.noteAction + " note"
@@ -69,7 +70,7 @@ class AddNewNotePopupFragment : DialogFragment() {
         registerEvents()
     }
 
-
+    // Registro del evento de autenticacion y validaciones de la nota
     private fun registerEvents() {
         auth = FirebaseAuth.getInstance()
         binding.createNoteBtn.setOnClickListener {

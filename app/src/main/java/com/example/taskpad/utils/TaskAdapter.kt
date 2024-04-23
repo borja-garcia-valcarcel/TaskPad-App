@@ -11,6 +11,7 @@ import com.example.taskpad.databinding.TaskListItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+    // adaptador para la vista de lista de tareas
 class TaskAdapter(private val list: MutableList<TaskData>, private val context: Context) :
     RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
@@ -55,7 +56,6 @@ class TaskAdapter(private val list: MutableList<TaskData>, private val context: 
                     binding.daysLeft.text = "No Due Date"
                 }
 
-                // Obtener el estado de isCompleted desde SharedPreferences
                 val isCompleted = sharedPreferences.getBoolean(this.taskId, false)
 
                 if (isCompleted) {
@@ -73,10 +73,7 @@ class TaskAdapter(private val list: MutableList<TaskData>, private val context: 
                 }
 
                 binding.doneTask.setOnClickListener {
-                    // Invertir el estado de isCompleted
                     val newIsCompleted = !isCompleted
-
-                    // Guardar el nuevo estado en SharedPreferences
                     sharedPreferences.edit {
                         putBoolean(this@with.taskId, newIsCompleted)
                         apply()

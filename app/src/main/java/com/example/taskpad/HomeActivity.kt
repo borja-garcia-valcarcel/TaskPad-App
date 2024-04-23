@@ -21,6 +21,8 @@ class HomeActivity : AppCompatActivity() {
     private var doubleClickToExit = false
     private val doubleClickDelay = 2000
 
+
+    // creacion del menu principal, incluye bottom menu y top menu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -59,11 +61,11 @@ class HomeActivity : AppCompatActivity() {
         }
         replaceFragment(TaskListFragment())
     }
-
+    // funcion para reemplazar el fragment por el seleccionado
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
     }
-
+    // funcion para implementar el doble click para salir de la app
     override fun onBackPressed() {
         if (doubleClickToExit) {
             super.onBackPressed()

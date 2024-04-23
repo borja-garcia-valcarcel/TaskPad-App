@@ -32,6 +32,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         this.taskAction = taskAction
     }
 
+    // companion object para crear el nodo en la bbdd, con esta instancia se añade taskid, task y dueDate
     companion object {
         const val TAG = "AddNewTaskPopupFragment"
 
@@ -45,6 +46,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         }
     }
 
+    // Aqui se cambia el nombre del popup en base a si el usuario esta editando o creando la tarea
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +56,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         this.binding.createTaskBtn.text = this.taskAction + " task"
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,6 +76,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         registerEvents()
     }
 
+    // Registro del evento de autenticacion y validaciones de la tarea
     private fun registerEvents() {
         auth = FirebaseAuth.getInstance()
 
@@ -112,9 +116,6 @@ class AddNewTaskPopupFragment : DialogFragment() {
             requireContext(),
             { _: DatePicker, year: Int, month: Int, day: Int ->
                 selectedDueDate.set(year, month, day)
-
-
-
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 binding.dueDateEt.setText(sdf.format(selectedDueDate.time))
             },
@@ -126,7 +127,7 @@ class AddNewTaskPopupFragment : DialogFragment() {
         datePicker.show()
     }
 
-
+    // Necesario para instanciar Listener al crear Fragments que implementan interfaces derivadas de esta
     interface DialogBtnClickListener {}
 
     interface SaveDialogBtnClickListener : DialogBtnClickListener {
